@@ -10,17 +10,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
-//    @IBOutlet weak var billAmountTextbox: UITextField!
-//    @IBOutlet weak var numPeopleTextbox: UITextField!
-//    @IBOutlet weak var serviceLevelLabel: UILabel!
-//    @IBOutlet weak var serviceSlider: UISlider!
-//    @IBOutlet weak var outputTipLabel: UILabel!
-//    @IBOutlet weak var outputBillLabel: UILabel!
     @IBOutlet weak var billAmountTextbox: UITextField!
-    
+    @IBOutlet weak var numPeopleTextbox: UITextField!
     @IBOutlet weak var serviceLevelLabel: UILabel!
     @IBOutlet weak var serviceSlider: UISlider!
     @IBOutlet weak var outputTipLabel: UILabel!
+    @IBOutlet weak var outputTotalBillLabel: UILabel!
     @IBOutlet weak var outputBillLabel: UILabel!
     
     override func viewDidLoad() {
@@ -42,17 +37,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calculateTip(sender: AnyObject) {
+        // set current values
         let currentBillAmount = Double(billAmountTextbox.text!)
         let curSlideValue = Double(serviceLevelLabel.text!)
-        //let currentNumPeople = Int(numPeopleTextbox.text!)
+        let currentNumPeople = Double(numPeopleTextbox.text!)
         
         // make sure when unwrapped they aren't nil
-        if currentBillAmount != nil && curSlideValue != nil //&& currentNumPeople != nil
+        if currentBillAmount != nil && curSlideValue != nil && currentNumPeople != nil
         {
-            // set current values
+            // print for debugging
             print("Current Bill: \(currentBillAmount!)")
             print("Current slide value: \(curSlideValue!)")
-            //print("Current number of people: \(currentNumPeople!)")
+            print("Current number of people: \(currentNumPeople!)")
             var tipPercentage: Double = 0.0
 
             // set tip percentage based on rating
@@ -82,7 +78,6 @@ class ViewController: UIViewController {
                 print("FIFTH Current tip %: \(tipPercentage)")
             }
             
-            
             // calculate and show tip
             let tip = currentBillAmount! * tipPercentage
             outputTipLabel.text = "$\(String(format: "%.2f", tip))"
@@ -90,7 +85,11 @@ class ViewController: UIViewController {
 
             // calculate and show final bill
             let finalBill = currentBillAmount! + tip
-            outputBillLabel.text = "$\(String(format: "%.2f", finalBill))"
+            outputTotalBillLabel.text = "$\(String(format: "%.2f", finalBill))"
+            
+            // split between number of people
+            let finalBillPerPerson = finalBill / currentNumPeople!
+            outputBillLabel.text = "$\(String(format: "%.2f", finalBillPerPerson))"
             print("Current bill: $\(String(format: "%.2f", finalBill))")
 
         }
