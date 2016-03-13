@@ -18,10 +18,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var outputTotalBillLabel: UILabel!
     @IBOutlet weak var outputBillLabel: UILabel!
     
+    // reference http://stackoverflow.com/questions/24126678/close-ios-keyboard-by-touching-anywhere-using-swift
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         serviceLevelLabel.text = String(serviceSlider.value)
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
